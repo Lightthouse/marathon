@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Aim Training | Проект 5</title>
+  </head>
+  <body>
+    <div class="screen">
+      <h1>Aim Training</h1>
+      <a href="#" class="start" id="start">Начать игру</a>
+    </div>
+
+    <div class="screen">
+      <h1>Выберите время</h1>
+      <ul class="time-list">
+        <li>
+          <button class="time-btn">
+            <span>5</span>сек
+          </button>
+        </li>
+        <li>
+          <button class="time-btn">
+            <span>10</span>сек
+          </button>
+        </li>
+        <li>
+          <button class="time-btn">
+            <span>20</span>сек
+          </button>
+        </li>
+        <li>
+          <button class="time-btn">
+            <span>40</span>сек
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="screen">
+      <h3>Осталось <span id="time">00:00</span></h3>
+      <div class="board" id="board">
+        <div>
+          <h1 class="hide">Счет: <span class="primary" id="score">0</span></h1>
+          <button class="restart hide" id="restart">Заново</button>
+        </div>
+
+      </div>
+    </div>
+
+
+    <script>
+      const MAX_CIRCLE_SIZE = 60;
+      const MIN_CIRCLE_SIZE = 15;
+      const [startScreen, timeScreen, finishScreen] = document.querySelectorAll('.screen');
+      const startButton = document.querySelector('#start');
+      const restartButton = document.querySelector('#restart');
+      const gameBoard = document.querySelector('#board');
+      let circle;
+      let timer = 0;
+      let score = 0;
+
+      startButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        startScreen.classList.add('up');
+      })
+
+      restartButton.addEventListener('click', () => {
+        timeScreen.classList.remove('up');
+        startScreen.classList.remove('up');
+
+        restartButton.classList.add('hide');
+        finishScreen.querySelector('h1').classList.add('hide');
+        finishScreen.querySelector('h3').classList.remove('hide');
+        timer = 0;
+        score = 0;
+
+      })
+
+      timeScreen.addEventListener('click', (e) => {
+        if(e.target.classList.contains('time-btn')) {
+          timer = e.target.querySelector('span').innerText;
+          startTheGame();
+          createCircle();
+          timeScreen.classList.add('up');
+        }
+
+      })
+
+      function createCircle() {
+        circle = document.createElement('div');
+        const {height, width} = gameBoard.getBoundingClientRect()
+        const size = random(MIN_CIRCLE_SIZE, MAX_CIRCLE_SIZE);
+        circle.className = 'circle';
+        circle.style.top = `${random(size, height - size)}px`;
+        circle.style.left = `${random(size, width - size)}px`;
+        circle.style.width = circle.style.height = `${size}px`;
+        circle.style.background = randomColor();
+
+        circle.addEventListener('click', () => {
+          circle.remove();
+          score++;
+          createCircle();
+        })
+        gameBoard.append(circle)
+      }
+
+      function setTime() {
+        document.querySelector('#time').innerHTML = (timer > 9) ? `00:${timer}` : `00:0${timer}`;
+      }
+
+      function startTheGame() {
+        setTime();
+        setTimeout(() => {
+          timer--;
+          timer >= 0 ? startTheGame() : finishTheGame();
+        }, 1000);
+      }
+
+      function finishTheGame() {
+        finishScreen.querySelector('h1').classList.remove('hide');
+        finishScreen.querySelector('h3').classList.add('hide');
+        document.querySelector('#score').textContent = score.toString();
+        circle.remove();
+
+        restartButton.classList.remove('hide');
+      }
+
+      function randomColor() {
+        return '#' + '000000'.split('').map(_ => random(0, 15).toString(16)).join('');
+      }
+
+      function random(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+
+    </script>
+  </body>
+</html>

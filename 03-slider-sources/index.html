@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Слайдер | Проект 3</title>
+  </head>
+  <body>
+    <div class="container">
+
+      <div class="sidebar">
+
+        <div style="background: linear-gradient(220.16deg, #e4e1f1 -8%, #d862b6 138%);">
+          <h1>China Aster</h1>
+          <p>Flower shop</p>
+        </div>
+        <div style="background: linear-gradient(229.99deg, #271f1a -26%, #615f4f 145%);">
+          <h1>Peony</h1>
+          <p>Flower shop</p>
+        </div>
+        <div style="background: linear-gradient(215.32deg, #ba6f72 -1%, #ac4044 124%);">
+          <h1>Persian buttercup</h1>
+          <p>Flower shop</p>
+        </div>
+        <div style="background: linear-gradient(221.87deg, #030102 1%, #ae809a 128%);">
+          <h1>French rose</h1>
+          <p>Flower shop</p>
+        </div>
+        <div style="background: linear-gradient(229.99deg, #dda47a -26%, #1f0a07 145%);">
+          <h1>Bengal rose</h1>
+          <p>Flower shop</p>
+        </div>
+      </div>
+
+      <div class="main-slide">
+        <div
+                style="
+            background-image: url('https://images.unsplash.com/photo-1654111080658-ef36580efc9c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=736&q=80');
+          "
+        ></div>
+        <div
+          style="
+            background-image: url('https://images.unsplash.com/photo-1588957146115-76bbf94040da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80');
+          "
+        ></div>
+        <div
+          style="
+            background-image: url('https://images.unsplash.com/photo-1654111080435-d7b55f8e8894?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80');
+          "
+        ></div>
+
+        <div
+                style="
+            background-image: url('https://images.unsplash.com/photo-1511201173873-c327e63eb6c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80');
+          "
+        ></div>
+
+
+        <div
+                style="
+            background-image: url('https://images.unsplash.com/photo-1527960609338-2f6aa1b6046c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
+          "
+        ></div>
+
+<!--        -->
+      </div>
+      <div class="controls">
+        <button class="down-button">
+          <i class="fas fa-arrow-down"></i>
+        </button>
+        <button class="up-button">
+          <i class="fas fa-arrow-up"></i>
+        </button>
+      </div>
+    </div>
+
+    <script>
+
+      const container = document.querySelector('.container');
+
+      const downButton = document.querySelector('.down-button');
+      const upButton = document.querySelector('.up-button');
+
+      const sidebar = document.querySelector('.sidebar');
+      const slide = document.querySelector('.main-slide');
+
+      const slideLength = slide.querySelectorAll('div').length;
+
+      const viewportHeight = container.clientHeight;
+      let slideCount = 0;
+
+      sidebar.style.top = `-${ (slideLength - 1) * 100}vh`;
+
+      downButton.addEventListener('click', () => {
+        changeSlide('down');
+      })
+
+      upButton.addEventListener('click', () => {
+        changeSlide('up');
+
+      })
+
+      function changeSlide(direction) {
+
+        if(direction === 'up') {
+          slideCount = (slideCount > slideLength - 2) ? 0 : slideCount + 1;
+        }
+
+        if(direction === 'down') {
+          slideCount = (slideCount < 1) ? slideLength - 1 : slideCount - 1;
+        }
+
+        slide.style.transform = `translateY(-${viewportHeight * slideCount}px)`;
+        sidebar.style.transform = `translateY(${viewportHeight * slideCount}px)`;
+      }
+
+    </script>
+  </body>
+</html>

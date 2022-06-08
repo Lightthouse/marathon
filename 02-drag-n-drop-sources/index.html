@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Drag & Drop | Проект 2</title>
+  </head>
+  <body>
+
+    <div>
+
+      <div class="row">
+          <div class="col-header backlog">backlog</div>
+          <div class="col-header assessment">Оценка</div>
+          <div class="col-header start">В работу</div>
+          <div class="col-header progress">В процессе</div>
+          <div class="col-header review">Ревью</div>
+          <div class="col-header done">Готовы</div>
+      </div>
+
+      <div class="row">
+        <div class="placeholder">
+          <div class="item" draggable="true">Сварить кофе</div>
+        </div>
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+        <div class="placeholder">
+          <div class="item" draggable="true">Помыть кота!</div>
+        </div>
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+      </div>
+
+      <hr>
+
+    </div>
+
+
+    <script>
+        const items = document.querySelectorAll('.item');
+        const placeHolders = document.querySelectorAll('.placeholder');
+        let currentItem;
+
+
+
+        for(let i of items) {
+          i.addEventListener('dragstart', (e) => {
+            currentItem = e.target;
+            e.target.classList.add('hold')
+            setTimeout(() => e.target.classList.add('hidden'), 0)
+          })
+
+          i.addEventListener('dragend', (e) => {
+            e.target.className = 'item';
+          })
+
+
+        }
+
+        for(let i of placeHolders) {
+
+          i.addEventListener('dragenter', (e) => {
+            e.target.classList.add('hovered');
+          });
+
+          i.addEventListener('dragleave', (e) => {
+            e.target.classList.remove('hovered');
+          });
+
+          i.addEventListener('dragover', (e) => {
+            e.preventDefault();
+          });
+
+          i.addEventListener('drop', (e) => {
+
+            if(e.target.classList.contains('placeholder')) {
+              e.target.append(currentItem);
+              e.target.classList.remove('hovered')
+            }
+            e.target.classList.remove('hovered');
+
+          });
+
+
+        }
+
+    </script>
+  </body>
+</html>

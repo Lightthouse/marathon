@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Доска | Проект 4</title>
+</head>
+<body>
+<div class="container" id="board"></div>
+
+<script>
+  const SQUARE_COUNT = 400;
+  const colorsList = ['#D2691E', '#8B008B', '#00CED1', '#ADFF2F', '#BA55D3', '#FF0000', '#9ACD32'];
+  const board = document.querySelector('#board');
+
+  for (let i = 0; i < SQUARE_COUNT; i++) {
+
+    const square = document.createElement('div');
+    square.classList.add('square');
+    board.append(square);
+
+    square.addEventListener('mouseover', () => {
+      const color = randomColor();
+      square.style.background = color;
+      square.style.boxShadow = `0 0 4px ${color}, 0 0 4px ${color}`;
+    })
+    square.addEventListener('mouseleave', () => {
+      square.style.background = '#1d1d1d';
+      square.style.boxShadow = '0 0 4px #000';
+
+    })
+  }
+
+  function randomColor(fromList = true) {
+    if(fromList) {
+      const colorNumber = Math.floor(Math.random() * colorsList.length);
+      return colorsList[colorNumber];
+    }
+
+    return '#' + '000000'.split('').map(_ => Math.floor(Math.random() * 15).toString(16)).join('');
+  }
+
+</script>
+</body>
+</html>
